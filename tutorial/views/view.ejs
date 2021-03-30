@@ -1,0 +1,13 @@
+<%- include("partials/header"); -%>
+<h3>This is the Title: <%= this_post.title %> </h3>
+<h3>This is the content: <%= this_post.content %> </h3>
+    <div >
+        <img src="data:this_post/<%=this_post.img.contentType%>;base64,
+             <%=this_post.img.data.toString('base64')%>" style="width:500px;height:600px;">
+    </div>
+    
+
+
+<a href="/edit/<%=this_post._id%>">Edit the journal</a>
+<br>
+<%- include("partials/footer"); -%>
