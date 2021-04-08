@@ -70,7 +70,18 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model("Post", postSchema);
 
 
-
+app.use((req,res,next) => {
+    res.setHeader('Access-Control-Allow-Origin','*');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type , Accept, Authorization'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET , POST,PATCH.DELETE,OPTIONS'
+    );
+    next();
+});
 
 app.get("/login",function(req,res){
     res.render("login");
@@ -119,7 +130,7 @@ app.get("/logout",function(req,res){
 
 
 app.get("/",function(req,res){
-    if(req.isAuthenticated()){
+    /*if(req.isAuthenticated()){
     
     Post.find({},function(err,file){
         if(err){
@@ -127,6 +138,7 @@ app.get("/",function(req,res){
         }
         else{
         var posts = file;
+        res.status(200).json({posts:posts});
         res.render("home" ,{posts:posts});
     }
     });
@@ -134,6 +146,18 @@ app.get("/",function(req,res){
     else{
         res.redirect("/login");
     }
+    */
+
+    Post.find({},function(err,file){
+        if(err){
+            console.log(err);
+        }
+        else{
+        var posts = file;
+        res.status(200).json({posts:posts});
+        //console.log(__dirname + "/my-app" +"/public/index.html")
+       // res.sendFile(__dirname + "/my-app" +"/public/index.html")
+        }});
     
 });
 
@@ -141,7 +165,8 @@ app.get("/",function(req,res){
 app.get("/compose",function(req,res){
     if(req.isAuthenticated()){
     var a = req.user._id;
-    res.render("compose",{user:a});
+    //res.render("compose",{user:a});
+    res.status(200).json({user:a});
     }
     else{
         res.redirect("/login");
@@ -153,6 +178,7 @@ const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody,
     entered_by: req.body.user,
+
     img: {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png' ,
@@ -161,9 +187,11 @@ const post = new Post({
   });
 
 
+
   post.save(function(err){
     if (!err){
-        res.redirect("/");
+        console.log("failed");
+        //res.redirect("/");
     }
   });
 })
@@ -172,8 +200,10 @@ app.get("/view/:id",function(req,res){
     
     const post_id = req.params.id;
     Post.findOne({_id:post_id},function(err,pos){
-        var a = {this_post:pos};
-        res.render("view",a);
+        //var a = {this_post:pos};
+        console.log(pos);
+        res.status(200).json({one:pos});
+        //res.render("view",a);
     })
 })
 
