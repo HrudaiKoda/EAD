@@ -6,6 +6,7 @@ import Items from "./components/post_all";
 import Page from "./components/home";
 import Single from "./components/test";
 import Sub from "./components/compose";
+import Change from "./components/edit";
 //props and map fucntion
 
 
@@ -16,7 +17,8 @@ return (
   <Switch>
     <Route path="/" exact component={Page}/>
     <Route path="/posts" exact component={Items}/>
-    <Route path="/posts/:id" component={Single}/>
+    <Route path="/posts/:id" exact component={Single}/>
+    <Route path="/posts/edit/:id" component={Change}/>
     <Route path="/compose" component={Sub}/>
   </Switch>
   </div>   

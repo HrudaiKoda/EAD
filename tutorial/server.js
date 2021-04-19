@@ -177,7 +177,7 @@ app.post("/compose",upload.single('image'),function(req,res){
 const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody,
-    entered_by: req.body.user,
+    //entered_by: req.body.user,
 
     img: {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
